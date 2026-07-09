@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem auto;
+  max-width: 800px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+  padding: 0 1rem;
+}
+
+h1 {
+  color: #1f4e79;
+  border-bottom: 2px solid #1f4e79;
+  padding-bottom: 0.3rem;
+}
+
+form {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+input, button {
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #1f4e79;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #163b5c;
+}
+
+.text, .task-card {
+  background: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.nav-links a {
+  display: inline-block;
+  margin-right: 0.8rem;
+  color: #1f4e79;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
