@@ -46,13 +46,32 @@
     {% else %}
     <li>Status: Not Completed</li>
     {% endif %}
+    {% if task.close_comment %}
+    <li>Close comment: {{ task.close_comment }}</li>
+    {% endif %}
   </ul>
 
-    <div>
-      <a href="{% url 'index' %}">Top</a>
-        <a href="{% url 'delete' task.id %}">Delete</a>
-      <a href="{% url 'close' task.id %}">Close</a>
-      <a href="{% url 'update' task.id %}">Edit</a>
+  <div>
+    <a href="{% url 'index' %}">Top</a>
+    <a href="{% url 'delete' task.id %}">Delete</a>
+    <a href="{% url 'close' task.id %}">Close</a>
+    <a href="{% url 'update' task.id %}">Edit</a>
   </div>
+
+  {% if not task.completed %}
+  <div>
+    <h2>Close with a comment</h2>
+    <form action="{% url 'close' task.id %}" method="post">
+      {% csrf_token %}
+      <div>
+        <label for="closeComment">Comment</label><br>
+        <input id="closeComment" name="close_comment" type="text" placeholder="Add a short comment">
+      </div>
+      <div>
+        <button type="submit">Close task with comment</button>
+      </div>
+    </form>
+  </div>
+  {% endif %}
 </body>
 </html>
