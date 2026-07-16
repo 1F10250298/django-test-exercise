@@ -30,6 +30,15 @@ class TaskModelTestCase(TestCase):
         self.assertFalse(task.completed)
         self.assertEqual(task.due_at, None)
 
+    def test_create_task_empty_title_sets_default(self):
+        task = Task(title='')
+        task.save()
+
+        task = Task.objects.get(pk=task.pk)
+        self.assertEqual(task.title, '無題のタスク')
+        self.assertFalse(task.completed)
+        self.assertEqual(task.due_at, None)
+
     def test_is_overdue_future(self):
         due = timezone.make_aware(datetime(2024, 6, 30, 23, 59, 59))
         current = timezone.make_aware(datetime(2024, 6, 30, 0, 0, 0))
@@ -72,6 +81,27 @@ class TodoViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name, 'todo/index.html')
         self.assertEqual(len(response.context['tasks']), 1)
+
+    def test_index_post_empty_title_sets_default(self):
+        client = Client()
+        data = {'title': '', 'due_at': '2024-06-30 23:59:59'}
+        response = client.post('/', data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 1)
+        self.assertEqual(response.context['tasks'][0].title, '無題のタスク')
+
+    def test_index_post_empty_title_and_due_sets_default(self):
+        client = Client()
+        data = {'title': '', 'due_at': ''}
+        response = client.post('/', data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'todo/index.html')
+        self.assertEqual(len(response.context['tasks']), 1)
+        self.assertEqual(response.context['tasks'][0].title, '無題のタスク')
+        self.assertIsNone(response.context['tasks'][0].due_at)
 
     def test_index_get_order_post(self):
         task1 = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
