@@ -8,6 +8,7 @@ class Task(models.Model):
     completed = models.BooleanField(default=False)
     posted_at = models.DateTimeField(default=timezone.now)
     due_at = models.DateTimeField(null=True, blank=True)
+    close_comment = models.CharField(max_length=200, blank=True, default='')
 
     def save(self, *args, **kwargs):
         if not self.title or self.title.strip() == '':
