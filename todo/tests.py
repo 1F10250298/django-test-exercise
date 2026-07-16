@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from django.utils import timezone
+from django.conf import settings
 from datetime import datetime
+import os
 from todo.models import Task
 
 
