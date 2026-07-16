@@ -40,10 +40,17 @@ def close(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
     except Task.DoesNotExist:
-        raise Http404("Task does not exist")      
+        raise Http404("Task does not exist")
+
+    if request.method == 'POST':
+        task.completed = True
+        task.close_comment = request.POST.get('close_comment', '').strip()
+        task.save()
+        return redirect(detail, task_id)
+
     task.completed = True
     task.save()
-    return redirect(index)
+    return redirect('index')
 
 def delete(request, task_id):
     try:

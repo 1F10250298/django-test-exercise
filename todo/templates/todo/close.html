@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <title>Close task</title>
+    <meta charset="UTF-8">
+    <meta name="author" content="INIAD">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  </head>
+
+  <body>
+    <h1>Close task</h1>
+    <p>終了時のコメントを入力してください。</p>
+    <form action="{% url 'close' task.id %}" method="post">
+      {% csrf_token %}
+      <div>
+        <label for="commentInput">Comment</label><br>
+        <input id="commentInput" name="close_comment" type="text" placeholder="Input comment" value="{{ task.close_comment }}">
+      </div>
+      <div>
+        <button type="submit">Close Task</button>
+      </div>
+    </form>
+    <br>
+    <div>
+      <a href="{% url 'detail' task.id %}">Back</a>
+    </div>
+  </body>
+
+</html>
