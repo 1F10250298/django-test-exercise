@@ -136,14 +136,14 @@ class ScrollToTopButtonTestCase(TestCase):
     
     def test_css_scroll_to_top_button_style(self):
         """TOPボタンのスタイルシートが正しく含まれているか確認"""
-        client = Client()
-        response = client.get('/')
-        
-        # CSSをレスポンスボディから確認
-        self.assertContains(response, 'scroll-to-top')
-        self.assertContains(response, 'position: fixed')
-        self.assertContains(response, 'bottom: 20px')
-        self.assertContains(response, 'right: 20px')
+        css_path = os.path.join(settings.BASE_DIR, 'todo', 'static', 'css', 'styles.css')
+        with open(css_path, encoding='utf-8') as f:
+            css_content = f.read()
+
+        self.assertIn('.scroll-to-top', css_content)
+        self.assertIn('position: fixed', css_content)
+        self.assertIn('bottom: 20px', css_content)
+        self.assertIn('right: 20px', css_content)
 
     def test_detail_get_success(self):
         task = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
