@@ -7,6 +7,31 @@
   <meta charset="UTF-8">
   <meta name="author" content="INIAD">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <style>
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #1F4E79;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        
+        .scroll-to-top:hover {
+            background-color: #163B5C;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +50,7 @@
 
     <div>
       <a href="{% url 'index' %}">Top</a>
-        <a href=""{% url 'delete' task.id %}">Delete</a>
+        <a href="{% url 'delete' task.id %}">Delete</a>
       <a href="{% url 'close' task.id %}">Close</a>
       <a href="{% url 'update' task.id %}">Edit</a>
   </div>
