@@ -39,6 +39,26 @@ button:hover {
   background-color: #163b5c;
 }
 
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: #1f4e79;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+}
+
+.scroll-to-top:hover {
+  background-color: #163b5c;
+}
+
 .text, .task-card {
   background: white;
   padding: 1rem;

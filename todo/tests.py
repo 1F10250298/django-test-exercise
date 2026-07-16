@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from django.utils import timezone
+from django.conf import settings
 from datetime import datetime
+import os
 from todo.models import Task
 
 
@@ -128,6 +130,50 @@ class TodoViewTestCase(TestCase):
         self.assertEqual(response.templates[0].name, 'todo/index.html')
         self.assertEqual(response.context['tasks'][0], task1)
         self.assertEqual(response.context['tasks'][1], task2)
+
+
+class ScrollToTopButtonTestCase(TestCase):
+    """TOPボタン機能のテスト"""
+    
+    def test_scroll_to_top_button_exists(self):
+        """TOPボタン要素がHTMLに存在するか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="scroll-to-top"')
+    
+    def test_scroll_to_top_button_has_correct_text(self):
+        """TOPボタンが正しいテキストを持っているか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, '>TOP<')
+    
+    def test_scroll_to_top_button_links_to_top(self):
+        """TOPボタンがページトップへのアンカーリンクであるか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, 'href="#top"')
+    
+    def test_page_has_top_anchor(self):
+        """ページのトップにid='top'アンカーが存在するか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, 'id="top"')
+    
+    def test_css_scroll_to_top_button_style(self):
+        """TOPボタンのスタイルシートが正しく含まれているか確認"""
+        css_path = os.path.join(settings.BASE_DIR, 'todo', 'static', 'css', 'styles.css')
+        with open(css_path, encoding='utf-8') as f:
+            css_content = f.read()
+
+        self.assertIn('.scroll-to-top', css_content)
+        self.assertIn('position: fixed', css_content)
+        self.assertIn('bottom: 20px', css_content)
+        self.assertIn('right: 20px', css_content)
 
     def test_detail_get_success(self):
         task = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
