@@ -9,6 +9,11 @@ class Task(models.Model):
     posted_at = models.DateTimeField(default=timezone.now)
     due_at = models.DateTimeField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.title or self.title.strip() == '':
+            self.title = '無題のタスク'
+        super().save(*args, **kwargs)
+
     def is_overdue(self, dt):
         if self.due_at is None:
             return False
