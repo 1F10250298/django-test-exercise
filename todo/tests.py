@@ -99,6 +99,50 @@ class TodoViewTestCase(TestCase):
         self.assertEqual(response.context['tasks'][0], task1)
         self.assertEqual(response.context['tasks'][1], task2)
 
+
+class ScrollToTopButtonTestCase(TestCase):
+    """TOPボタン機能のテスト"""
+    
+    def test_scroll_to_top_button_exists(self):
+        """TOPボタン要素がHTMLに存在するか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="scroll-to-top"')
+    
+    def test_scroll_to_top_button_has_correct_text(self):
+        """TOPボタンが正しいテキストを持っているか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, '>TOP<')
+    
+    def test_scroll_to_top_button_links_to_top(self):
+        """TOPボタンがページトップへのアンカーリンクであるか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, 'href="#top"')
+    
+    def test_page_has_top_anchor(self):
+        """ページのトップにid='top'アンカーが存在するか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        self.assertContains(response, 'id="top"')
+    
+    def test_css_scroll_to_top_button_style(self):
+        """TOPボタンのスタイルシートが正しく含まれているか確認"""
+        client = Client()
+        response = client.get('/')
+        
+        # CSSをレスポンスボディから確認
+        self.assertContains(response, 'scroll-to-top')
+        self.assertContains(response, 'position: fixed')
+        self.assertContains(response, 'bottom: 20px')
+        self.assertContains(response, 'right: 20px')
+
     def test_detail_get_success(self):
         task = Task(title='task1', due_at=timezone.make_aware(datetime(2024, 7, 1)))
         task.save()

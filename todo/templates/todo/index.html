@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <h1>Sample To Do Application</h1>
+    <h1 id="top">Sample To Do Application</h1>
     <p>You can submit tasks from the following form.</p>
     <form action="{% url 'index' %}" method="post">
       {% csrf_token %}
@@ -49,6 +49,9 @@
       </ul>
     </div>
     {% endfor %}
+
+    <!-- TOPボタン -->
+    <a href="#top" class="scroll-to-top">TOP</a>
   </body>
 
 </html>
