@@ -1,5 +1,8 @@
+from urllib.parse import urlencode
+
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.urls import reverse
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
 from todo.models import Task
@@ -31,8 +34,15 @@ def detail(request, task_id):
     except:
         raise Http404("Task does not exist")
 
+    share_text = f"Todoタスク「{task.title}」無事完了しました！"
+    share_url = 'https://twitter.com/intent/tweet?' + urlencode({
+        'text': share_text,
+        'url': request.build_absolute_uri(reverse('detail', args=[task_id])),
+    })
+
     context = {
         'task': task,
+        'share_url': share_url,
     }
     return render(request, 'todo/detail.html', context)
 

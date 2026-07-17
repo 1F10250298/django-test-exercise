@@ -132,6 +132,18 @@ class TodoViewTestCase(TestCase):
         self.assertEqual(response.context['tasks'][1], task2)
 
 
+class XShareButtonTestCase(TestCase):
+    def test_detail_page_contains_x_share_link(self):
+        task = Task(title='task1')
+        task.save()
+        client = Client()
+        response = client.get('/{}/'.format(task.pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Post to X')
+        self.assertContains(response, 'https://twitter.com/intent/tweet')
+
+
 class ScrollToTopButtonTestCase(TestCase):
     """TOPボタン機能のテスト"""
     
